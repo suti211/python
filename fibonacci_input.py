@@ -11,7 +11,6 @@ for i in range(0, rows):
     elif i > 1:
         values.insert(i, values[i-1] + values[i-2])
 
-    line = str(i+1) + '. ' + str(values[i])
-    print(line)
+    print('{0:<3d}. {1:>30d}'.format(i+1, values[i]))
 
     
