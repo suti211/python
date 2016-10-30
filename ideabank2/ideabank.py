@@ -61,14 +61,14 @@ if len(sys.argv) == 1:
     # we append the new ideas to the ideas list, with a number, which is derived from
     # the length of the list, and write the whole list into file.
 
-    ideas.append(str(highestID) + ": " + input("What's your newest idea?: "))
+    ideas.append(input("What's your newest idea?: "))
     vWriteToFile(FILE_NAME)
 
     # printing out all of the ideas.
 
     print("Your ideabank: ")
-    for i in ideas:
-        print("%s\n" % (i))
+    for i in range(0, len(ideas)):
+        print("%d: %s.\n" % (i+1, ideas[i]))
 
 # only check arguments if we even have to avoid errors
 
@@ -85,8 +85,9 @@ if len(sys.argv) > 1:
         try:
             ideas = vReadFromFile(FILE_NAME)
             print("Your ideabank: ")
-            for i in ideas:
-                print("%s\n" % (i))
+            print("ID-Idea")
+            for i in range(0, len(ideas)):
+                print("%d: %s.\n" % (i+1, ideas[i]))
         except FileNotFoundError:
             print("There is no ideabank file yet, exiting. Run the program without arguments first.")
             exit()
