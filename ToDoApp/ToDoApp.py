@@ -3,8 +3,6 @@ import sys
 
 FILE_NAME = "todos.txt"
 argumentNumber = len(sys.argv)
-toDoList = []
-completedList = []
 
 def readFromFile():
     if len(toDoList) == 0:
@@ -30,6 +28,9 @@ def listFileContent():
         index += 1
 
 while True:
+    
+    toDoList = []
+    completedList = []
 
     while True:
         command = input("Please specifiy a valid command: [add, list, mark, archive, exit]")
@@ -50,6 +51,7 @@ while True:
         entry = input("Please enter your task (task, completed True|False)")
         toDoList.append(entry.split(",")[0])
         completedList.append(entry.split(",")[1])
+        
 
         myFile = open(FILE_NAME, "a+")
         for i in range(0, len(toDoList)):
