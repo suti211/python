@@ -3,6 +3,8 @@
 # recieves a dictionary as parameter and prints out the contents of it,
 # plus the sum of the values at the end.
 ##############################################################################
+
+
 def display_inventory(inv):
     print("Inventory:")
     for key, value in inv.items():
@@ -19,7 +21,7 @@ def get_total_item_count(inv):
     for value in inv.values():
         total += value
     return total
-        
+
 
 # usage: add_to_inventory(dictionary, list(strings only))
 # checks if an item from the list, is present in the recieved dictionary,
@@ -30,7 +32,7 @@ def add_to_inventory(inv, added_items):
         if item in inv:
             inv[item] += 1
         else:
-            inv.update({item : inv.get(item, 0) + 1})
+            inv.update({item: inv.get(item, 0) + 1})
 
 
 # usage: print_table(order) where order="" | "count,asc" | "count,desc"
@@ -42,10 +44,11 @@ def add_to_inventory(inv, added_items):
 def print_table(*order):
     table_width = len(max(inventory, key=len))
     print("Inventory:")
-    print("{0:>{width}s}   {1:>{width}s}".format("count","item name", width = table_width))
+    print("{0:>{width}s}   {1:>{width}s}".format(
+        "count", "item name", width=table_width))
 
     # we print out 2 times the length of the longest string because of the two
-    # collumns plus we need to compensate for the three spaces between the 
+    # collumns plus we need to compensate for the three spaces between the
     # spaceholders
     dash_line_len = table_width * 2 + 3
     print_dashline(dash_line_len)
@@ -54,46 +57,53 @@ def print_table(*order):
     inv_list = [(key, value) for key, value in inventory.items()]
 
     if len(order) == 0:
-        for i,j in inv_list:
-            print("{0:>{width}d}   {1:>{width}s}".format(j, i, width = table_width))
+        for i, j in inv_list:
+            print("{0:>{width}d}   {1:>{width}s}".format(
+                j, i, width=table_width))
         print_dashline(dash_line_len)
-        
-        print("Total number of items: %d" %(get_total_item_count(inventory)))
+
+        print("Total number of items: %d" % (get_total_item_count(inventory)))
 
     # we sort the tuple list
     elif order[0] == "count,asc":
         inv_list = sorted(inv_list, key=lambda tup: tup[1])
 
-        for i,j in inv_list:
-            print("{0:>{width}d}   {1:>{width}s}".format(j, i, width = table_width))
+        for i, j in inv_list:
+            print("{0:>{width}d}   {1:>{width}s}".format(
+                j, i, width=table_width))
         print_dashline(dash_line_len)
 
-        print("Total number of items: %d" %(get_total_item_count(inventory)))
+        print("Total number of items: %d" % (get_total_item_count(inventory)))
 
     # we reverse the sorting to get the descending list
     elif order[0] == "count,desc":
         inv_list = sorted(inv_list, key=lambda tup: tup[1], reverse=True)
 
-        for i,j in inv_list:
-            print("{0:>{width}d}   {1:>{width}s}".format(j, i, width = table_width))
+        for i, j in inv_list:
+            print("{0:>{width}d}   {1:>{width}s}".format(
+                j, i, width=table_width))
         print_dashline(dash_line_len)
 
-        print("Total number of items: %d" %(get_total_item_count(inventory)))
+        print("Total number of items: %d" % (get_total_item_count(inventory)))
     else:
         print("invalid arg for print_table()")
         exit()
-        
+
 # prints out dashes,in the same line the length parameter determines how many.
 ##############################################################################
+
+
 def print_dashline(length):
     for i in range(length):
         print("-", end="")
     print("\n")
-            
+
 # import loot from a csv file, and merges it with inventory dictionary
 ##############################################################################
+
+
 def import_inventory(*filename):
-    
+
     param_len = len(filename)
     file_to_read = ""
 
@@ -124,20 +134,20 @@ def import_inventory(*filename):
             loot_from_file.append(line.strip().lower().split(","))
 
         # removing first element since it has no use at this point
-        #(contains item name,count)
+        # (contains item name,count)
         del loot_from_file[0]
 
         # removing empty sublists from list, if we got any from file input
         i = 0
         while i < len(loot_from_file):
             # for debug
-            print(loot_from_file[i])
+            # print(loot_from_file[i])
             if len(loot_from_file[i]) == 1:
                 del loot_from_file[i]
             i += 1
 
         # for debug
-        print(loot_from_file)
+        # print(loot_from_file)
 
         # since we have our loot from file in list of lists,
         # we iterate through the list of lists, and check if the
@@ -152,13 +162,14 @@ def import_inventory(*filename):
             if loot_from_file[i][0] in inventory:
                 inventory[loot_from_file[i][0]] += int(loot_from_file[i][1])
             else:
-                inventory.update({loot_from_file[i][0] : int(loot_from_file[i][1])})
+                inventory.update(
+                    {loot_from_file[i][0]: int(loot_from_file[i][1])})
         loot_file.close()
-            
+
 
 # usage: get_y_or_n(string)
-# asks user for y or n input, returns true if input = y, returns false else        
-##############################################################################      
+# asks user for y or n input, returns true if input = y, returns false else
+##############################################################################
 def get_y_or_n(prompt):
     correctInput = False
 
@@ -179,6 +190,8 @@ def get_y_or_n(prompt):
 # creates a CSV file with a default line in it
 # if no paramteres give it creates the default import_inventory.csv file
 ##############################################################################
+
+
 def create_loot_template(*filename):
     file_to_create = ""
     if len(filename) == 0:
@@ -191,9 +204,11 @@ def create_loot_template(*filename):
     file = open(file_to_create, "w")
     file.write("item name,count")
     file.close()
-          
+
 # exports the current inventory into a file given in parameter, into
 ##############################################################################
+
+
 def export_inventory(*filename):
     file_to_write = ""
     if len(filename) == 0:
@@ -211,7 +226,8 @@ def export_inventory(*filename):
         loot_file.write("item name,count\n")
         for key, value in inventory.items():
             loot_file.write("%s,%d\n" % (key, value))
-        
+        loot_file.close()
+
 DEFAULT_FILE_NAME = "import_inventory.csv"
 
 inventory = {"pocket fluff": 1}
@@ -222,11 +238,11 @@ print_table("count,desc")
 
 print("We slay a dargon, who was guarding a chest and find:\n")
 print("2 gold coins, 1 dagger, 3 ruby, 1 rope")
-dragon_loot = ["gold coin", "gold coin", "dagger", "ruby", "ruby", "rope", "ruby"]
+dragon_loot = ["gold coin", "gold coin",
+               "dagger", "ruby", "ruby", "rope", "ruby"]
 add_to_inventory(inventory, dragon_loot)
 
 print("This is our bag now:\n")
 print_table("count,asc")
 
 export_inventory()
-
